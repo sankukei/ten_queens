@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 char	**init_matrice(int col, int row)
 {
@@ -28,7 +29,7 @@ char	**init_matrice(int col, int row)
 	return (mat);
 }
 
-int	check_valid(char **mat, int col, int row)
+int	is_valid(char **mat, int col, int row)
 {
 	int	queen;
 	int	count;
@@ -55,10 +56,51 @@ int	check_valid(char **mat, int col, int row)
 	return (0);
 }
 
+int	is_solved(char **mat)
+{
+	int	i;
+	int	y;
+
+	while (mat[i])
+	{
+		while (mat[i][y])
+		{
+			if (!(is_valid(mat, i, y)))
+				return (1);
+			y++;
+		}
+		y = 0;
+		i++;
+	}
+	return (0);
+}
+
+void	backtrack(char **mat, int col)
+{
+	int	i;
+	int	y;
+
+	i = 0;
+	y = 0;
+	if (is_solved(mat))
+		display(mat);
+	else
+		while(mat[i] && mat[i][col])
+		{
+			if (is_valid(mat[i][col] == 'x'))
+			{
+				mat[i][col] = 'x';
+				backtrack(mat, col + 1);
+			
+			}
+			i++;
+		}
+}
+
+
 int	main(void)
 {
 	char	**xd;
-
 	xd = init_matrice(10, 10);
 	free(xd);
 	return (0);
